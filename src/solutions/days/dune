@@ -1,0 +1,4 @@
+(library
+ (name solutions)
+ (libraries solvers fileutils str))
+
