@@ -1,5 +1,5 @@
 module type Solver = sig
-  val naloga1 : string -> string
+  val task1 : string -> string
 
-  val naloga2 : string -> string -> string
+  val task2 : string -> string -> string
 end

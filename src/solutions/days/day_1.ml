@@ -1,9 +1,6 @@
 open Solvers.Signature
+open Utils.String_module
 
-let parse_data data = String.split_on_char '\n' data;;
-let splitStringToList str = str |> String.to_seq |> List.of_seq;;
-let combineCharacters a b = String.make 1 a ^ String.make 1 b;;
-let appendChar str char = str ^ (String.make 1 char);;
 let digits = "0123456789";;
 
 type fake_digits = {
@@ -23,48 +20,50 @@ let fake_digits = [
 ];;
 
 module Solver : Solver = struct
-  let naloga1 data =
-    let rec aux2 line acc2 =
+  let task1 data =
+    let rec check_characters line numbers =
       match line with
       | [] -> 
-        (match List.length acc2 with
+        (match List.length numbers with
         | 0 -> 0
-        | 1 -> int_of_string (combineCharacters (List.hd acc2) (List.hd acc2))
-        | _ -> int_of_string (combineCharacters (List.hd(List.rev acc2)) (List.hd acc2)))
-      | h :: t -> if String.contains digits h then aux2 t (h :: acc2) else aux2 t acc2 in 
+        | 1 -> int_of_string ((List.hd numbers) $^$ (List.hd numbers))
+        | _ -> int_of_string ((List.hd(List.rev numbers)) $^$ (List.hd numbers)))
+      | h :: t -> if String.contains digits h then check_characters t (h :: numbers) 
+                  else check_characters t numbers in 
       
-    let rec aux parsed acc =
+    let rec check_lines parsed numbers =
       match parsed with
-      | [] -> List.fold_left (+) 0 acc
-      | h :: t -> aux t ((aux2 (splitStringToList h) []) :: acc) in
+      | [] -> List.fold_left (+) 0 numbers
+      | h :: t -> check_lines t ((check_characters (stringToList h) []) :: numbers) in
 
-    string_of_int (aux (parse_data data) []);;
+    string_of_int (check_lines (parseData data) []);;
 
-  let naloga2 data _part1 =
-    let substring_in_string s1 s2 =
-      (* source: https://stackoverflow.com/questions/8373460/substring-check-in-ocaml *)
-      let re = Str.regexp_string s2
-      in
-          try ignore (Str.search_forward re s1 0); true
-          with Not_found -> false in
+  let task2 data _part1 =
     let rec which_digit str fake_digits =
       match fake_digits with
       | [] -> ' '
-      | h :: t -> if substring_in_string str h.name then h.value else which_digit str t in
-    let rec aux2 line acc2 acc3 =
+      | h :: t -> if substringInString str h.name then h.value 
+                  else which_digit str t in
+
+    let rec check_characters line numbers words =
       match line with
       | [] -> 
-        (match List.length acc2 with
+        (match List.length numbers with
         | 0 -> 0
-        | 1 -> int_of_string (combineCharacters (List.hd acc2) (List.hd acc2))
-        | _ -> int_of_string (combineCharacters (List.hd(List.rev acc2)) (List.hd acc2)))
-      | h :: t -> if String.contains digits h then aux2 t (h :: acc2) ""
-                  else if (which_digit (appendChar acc3 h) fake_digits) <> ' ' 
-                    then aux2 t ((which_digit (appendChar acc3 h) fake_digits) ::acc2) (String.make 1 h)
-                  else aux2 t acc2 (appendChar acc3 h) in      
-    let rec aux parsed acc =
+        | 1 -> int_of_string ((List.hd numbers) $^$ (List.hd numbers))
+        | _ -> int_of_string ((List.hd(List.rev numbers)) $^$ (List.hd numbers)))
+      | h :: t -> if String.contains digits h 
+                  then check_characters t (h :: numbers) ""
+                  else 
+                    let digit = which_digit (words ^$ h) fake_digits in
+                    if digit <> ' ' 
+                    then check_characters t (digit :: numbers) (String.make 1 h)
+                  else check_characters t numbers (words ^$ h) in      
+
+    let rec check_lines parsed numbers =
       match parsed with
-      | [] -> List.fold_left (+) 0 acc
-      | h :: t -> aux t ((aux2 (splitStringToList h) [] "") :: acc) in
-    string_of_int (aux (parse_data data) []);;
+      | [] -> List.fold_left (+) 0 numbers
+      | h :: t -> check_lines t ((check_characters (stringToList h) [] "") :: numbers) in
+
+    string_of_int (check_lines (parseData data) []);;
 end;;

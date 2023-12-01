@@ -10,6 +10,5 @@ let write_to_file filename content =
   output_string chan (content ^ "\n");
   close_out chan
 
-let split char l =
-  String.split_on_char char l |> List.map String.trim
-  |> List.filter (( <> ) "")
+
+
