@@ -1,4 +1,5 @@
 let parseData data = String.split_on_char '\n' data;;
+let split character data = String.split_on_char character data;;
 let stringToList str = str |> String.to_seq |> List.of_seq;;
 let substringInString s1 s2 =
   (* source: https://stackoverflow.com/questions/8373460/substring-check-in-ocaml *)
