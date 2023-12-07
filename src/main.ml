@@ -21,9 +21,9 @@ let main () =
   let input_data =
     read_file ("data/day_" ^ day ^ ".in")
   in
-  let p1_start = Sys.time () in
+  let p1_start = Unix.gettimeofday() in
   let part1 = Solver.task1 input_data in
-  let t1_time = Sys.time () -. p1_start in
+  let t1_time = Unix.gettimeofday() -. p1_start in
   print_endline "PART 1:";
   print_endline part1;
   print_endline ("Taken: " ^ string_of_float t1_time ^ "s");

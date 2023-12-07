@@ -1,5 +1,5 @@
 (executable
  (name main)
  (public_name main)
- (libraries utils solutions solvers)
+ (libraries utils solutions solvers unix)
 )
