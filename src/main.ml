@@ -10,6 +10,7 @@ let choose_solver day : (module Solver) =
     | "4" -> (module Day_4.Solver)
     | "5" -> (module Day_5.Solver)
     | "6" -> (module Day_6.Solver)
+    | "7" -> (module Day_7.Solver)
     | _ -> failwith "Ni še rešeno"
 
 let main () =
