@@ -10,3 +10,8 @@ let substringInString s1 s2 =
 let ($^$) a b = String.make 1 a ^ String.make 1 b;;
 let (^$) a b = a ^ (String.make 1 b);;
 let ($^) a b = (String.make 1 a) ^ b;;
+let find_char s c =
+  try
+    (String.index s c)
+  with
+  | Not_found -> -1;;
