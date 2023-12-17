@@ -1,6 +1,7 @@
 open Solvers.Signature
 open Utils.String_module
 open Utils.List_module
+open Utils.Array_module
 
 
 module Solver : Solver = struct
@@ -26,9 +27,7 @@ module Solver : Solver = struct
   
   let sort_list list =
     List.sort (fun a b -> if fst a = (fst b) then (snd a) - snd(b) else (fst a) - (fst b)) list
-  let update_array arr i x =
-    arr.(i) <- x;
-    arr
+
   let rec clear_smaller ls x =
     match ls with
     | [] -> []

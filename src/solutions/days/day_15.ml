@@ -1,11 +1,8 @@
 open Solvers.Signature
 open Utils.String_module
+open Utils.Array_module
 
 type lens = {label: string; focal: int}
-
-let update_array arr i x =
-  arr.(i) <- x;
-  arr
 
 module Solver : Solver = struct
   let parse input = List.map stringToList (String.split_on_char ',' input)
